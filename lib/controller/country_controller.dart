@@ -43,6 +43,11 @@ class CountryController extends GetxController {
 
     final result = await client.query(options);
 
+    if (result.hasException) {
+      log('error get data');
+      return;
+    }
+
     log(result.data!['continents'][0]['countries'].toString());
     var repo = result.data!['continents'][0];
 
