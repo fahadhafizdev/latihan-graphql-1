@@ -3,8 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:latihan_graphql_1/models/countries_model.dart';
 
 class CountryController extends GetxController {
+  RxList<CountriesModel> dataCountry = <CountriesModel>[].obs;
+
   static final HttpLink _httpLink = HttpLink(
     'https://countries.trevorblades.com',
   );
@@ -28,6 +31,7 @@ class CountryController extends GetxController {
   );
 
   Future<void> getCountry() async {
+    dataCountry.value = [];
     final options = WatchQueryOptions(
       document: gql(readRepositories),
       // variables: <String, dynamic>{
@@ -40,9 +44,13 @@ class CountryController extends GetxController {
     final result = await client.query(options);
 
     log(result.data!['continents'][0]['countries'].toString());
-    final repo = result.data!['continents'][0]['countries'] as List<dynamic>;
+    var repo = result.data!['continents'][0];
 
-    repo.map((e) => log(e['name'].toString())).toList();
+    var a = CountriesModelResponse.fromJson(repo);
+
+    dataCountry.value = a.countries!;
+
+    dataCountry.map((e) => log(e.name.toString())).toList();
   }
 
   @override
