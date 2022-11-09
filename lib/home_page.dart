@@ -10,6 +10,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final CountController countController = Get.put(CountController());
     final CountryController countryController = Get.put(CountryController());
+
+    Widget listCountry() {
+      return Obx(
+        () => Column(
+          children: [
+            ...countryController.dataCountry.map(
+              (element) => ListTile(
+                title: Text(element.name ?? ''),
+                subtitle: Text(element.code ?? ''),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: 'detail',
@@ -20,7 +36,14 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Belajar Graphql'),
       ),
-      body: Obx(() => Text('${countController.count.value}')),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Obx(() => Text('${countController.count.value}')),
+            listCountry(),
+          ],
+        ),
+      ),
     );
   }
 }
