@@ -1,6 +1,6 @@
 # latihan_graphql_1
 
-A new Flutter project. for learn graphql basic
+A new Flutter project. for learn graphql basic api
 
 ## Getting Started
 
